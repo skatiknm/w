@@ -1,4 +1,4 @@
-mermaid
+```mermaid
 erDiagram
     Culture {
         string CodeCulture PK "Код Культуры"
@@ -69,3 +69,4 @@ erDiagram
     Field ||--o{ YieldResult : "для поля и сезона фиксируется один результат урожайности"
     Season ||--o{ YieldResult : "результат урожайности привязан к сезону"
     AgroOperation }|--|| YieldResult : "операция «уборка» обосновывает результат урожайности"
+```
