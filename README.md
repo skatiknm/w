@@ -7,7 +7,7 @@ erDiagram
         decimal NormYieldCGA "Нормативная Урожайность Ц/Га"
         decimal SeedDensity "Рекомендуемая Густота Посева Тыс Шт/Га"
         int SeedDepthCm "Глубина Заделки Семян См"
-
+}
     Field {
         string FieldNumber PK "Номер Поля"
         decimal AreaHA "Площадь Га"
