@@ -1,71 +1,73 @@
 ```mermaid
 erDiagram
     Culture {
-        string CodeCulture PK "Код Культуры"
-        string Name "Наименование"
-        string Type "Тип Культуры"
-        decimal NormYieldCGA "Нормативная Урожайность Ц/Га"
-        decimal SeedDensity "Рекомендуемая Густота Посева Тыс Шт/Га"
-        int SeedDepthCm "Глубина Заделки Семян См"
-}
+        string CodeCulture PK "Код культуры"
+        string Name "Наименование культуры"
+        string Type "Тип (зерновая/техническая/кормовая/сидерат)"
+        decimal NormYieldCGA "Нормативная урожайность, ц/га"
+        decimal SeedDensity "Густота посева, тыс. шт./га"
+        int SeedDepthCm "Глубина заделки, см"
+    }
+
     Field {
-        string FieldNumber PK "Номер Поля"
-        decimal AreaHA "Площадь Га"
-        string SoilType "Тип Почвы"
+        string FieldNumber PK "Номер поля"
+        decimal AreaHA "Площадь, га"
+        string SoilType "Тип почвы"
         string District "Район"
-        string CadastralNumber "Кадастровый Номер"
-        int LastAgroChemYear "Год Последнего Агро Хим Обследования"
-        int BonitetScore "Балл Бонитета"
+        string CadastralNumber "Кадастровый номер"
+        int LastAgroChemYear "Год последнего агрохим. обследования"
+        int BonitetScore "Балл бонитета"
     }
 
     Season {
-        string SeasonCode PK "Код Сезона"
+        string SeasonCode PK "Код сезона"
         int Year "Год"
-        int SeasonSequence "Порядковый Номер Сезона"
-        date StartDate "Дата Начала"
-        date EndDate "Дата Окончания"
-        string AgroClimateNotes "Агроклиматические Особенности"
+        int SeasonSequence "Порядковый номер сезона"
+        date StartDate "Дата начала"
+        date EndDate "Дата окончания"
+        string AgroClimateNotes "Агроклиматические особенности"
     }
 
     Employee {
-        string EmployeeTabNo PK "Табельный Номер"
+        string EmployeeTabNo PK "Табельный номер"
         string FullName "ФИО"
         string Position "Должность"
         string Specialization "Специализация"
         string Phone "Телефон"
-        date HireDate "Дата Приема На Работу"
+        date HireDate "Дата приёма на работу"
     }
 
     AgroOperation {
-        string OperationNumber PK "Номер Операции"
-        string OperationType "Тип Операции"
-        date OperationDate "Дата Проведения"
-        string EmployeeTabNo FK "Табельный Номер Ответственного"
-        string FieldNumber FK "Номер Поля"
-        string SeasonCode FK "Код Сезона"
-        string Equipment "Используемая Техника"
-        decimal DoseRate "Дозировка Норма Внесения"
-        decimal Cost "Стоимость Операции"
-        string CodeCulture FK "КодКультуры (для посевов)"
+        string OperationNumber PK "Номер операции"
+        string OperationType "Тип операции"
+        date OperationDate "Дата проведения"
+        string EmployeeTabNo FK "Ответственный сотрудник"
+        string FieldNumber FK "Поле"
+        string SeasonCode FK "Сезон"
+        string Equipment "Техника"
+        decimal DoseRate "Дозировка/норма внесения"
+        decimal Cost "Стоимость операции"
+        string CodeCulture FK "Культура (для посева/уборки)"
     }
 
     YieldResult {
-        string YieldResultCode PK "Код Результата"
-        string FieldNumber FK "Номер Поля"
-        string SeasonCode FK "Код Сезона"
-        decimal ActualYieldCGA "Фактическая Урожайность ЦГа"
-        decimal GrossHarvestC "Валовой СборЦ"
-        decimal MoisturePercent "Влажность Зерна Проц"
-        decimal WeedPercent "Засоренность Проц"
-        string OperationHarvestNo FK "Номер Операци и Уборка"
+        string YieldResultCode PK "Код результата"
+        string FieldNumber FK "Номер поля"
+        string SeasonCode FK "Код сезона"
+        decimal ActualYieldCGA "Фактическая урожайность, ц/га"
+        decimal GrossHarvestC "Валовой сбор, ц"
+        decimal MoisturePercent "Влажность, %"
+        decimal WeedPercent "Засорённость, %"
+        string HarvestOperationNumber FK "Операция уборки"
         string Notes "Примечания"
     }
 
-    Culture ||--o{ AgroOperation : "может высеваться в операциях типа «посев»"
-    Field ||--o{ AgroOperation : "на поле выполняется множество агротехнических операций"
-    Season ||--o{ AgroOperation : "в сезоне выполняется множество операций"
+    %% Связи
+    Culture ||--o{ AgroOperation : "высевается/убирается в операциях (посев/уборка)"
+    Field ||--o{ AgroOperation : "на поле в сезоне выполняется множество операций"
+    Season ||--o{ AgroOperation : "в сезоне на разных полях выполняется множество операций"
     Employee ||--o{ AgroOperation : "сотрудник выполняет множество операций"
-    Field ||--o{ YieldResult : "для поля и сезона фиксируется один результат урожайности"
-    Season ||--o{ YieldResult : "результат урожайности привязан к сезону"
-    AgroOperation }|--|| YieldResult : "операция «уборка» обосновывает результат урожайности"
+    Field ||--o{ YieldResult : "поле участвует в разных сезонах с разными результатами"
+    Season ||--o{ YieldResult : "сезон охватывает множество полей с результатами"
+    AgroOperation }|--|| YieldResult : "операция уборки обосновывает результат урожайности"
 ```
