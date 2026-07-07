@@ -1,13 +1,12 @@
 ```mermaid
 erDiagram
     Culture {
-        Код Культуры
-        Наименование
-        Тип Культуры
-        Нормативная Урожайность Ц/Га
-        Рекомендуемая Густота Посева Тыс Шт/Га
-        Глубина Заделки Семян См
-    }
+        string CodeCulture PK "Код Культуры"
+        string Name "Наименование"
+        string Type "Тип Культуры"
+        decimal NormYieldCGA "Нормативная Урожайность Ц/Га"
+        decimal SeedDensity "Рекомендуемая Густота Посева Тыс Шт/Га"
+        int SeedDepthCm "Глубина Заделки Семян См"
 
     Field {
         string FieldNumber PK "Номер Поля"
